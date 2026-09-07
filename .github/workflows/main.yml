@@ -1,77 +1,29 @@
-name: 🚀 ROBIUL BOT • Node 20 Build
+name: Node.js Bot
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    name: 🤖 ROBIUL BOT Runner
+  bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
 
     steps:
-
-      # ╔══════════════════════════════╗
-      # 📥 CHECKOUT REPOSITORY
-      # ╚══════════════════════════════╝
-      - name: 🧩 Checkout Source Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # ╔══════════════════════════════╗
-      # 🧰 SETUP NODE ENVIRONMENT
-      # ╚══════════════════════════════╝
-      - name: ⚙️ Setup Node.js (v22)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 20
           cache: npm
 
-      # ╔══════════════════════════════╗
-      # 📦 INSTALL DEPENDENCIES
-      # ╚══════════════════════════════╝
-      - name: 📦 Install Packages
-        run: |
-          echo "━━━━━━━━━━━━━━━━━━━━━━"
-          echo "📦 Installing Dependencies..."
-          echo "━━━━━━━━━━━━━━━━━━━━━━"
+      - name: Install Dependencies
+        run: npm install
 
-          npm install
-          npm install request-promise --save
-
-          echo "✅ Installation Complete"
-
-      # ╔══════════════════════════════╗
-      # 🚀 START ROBIUL BOT
-      # ╚══════════════════════════════╝
-      - name: 🤖 Launch ROBIUL BOT
+      - name: Start Bot
         env:
-          FB_EMAIL: ${{ secrets.FB_EMAIL }}
-          FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
-          FB_COOKIE: ${{ secrets.FB_COOKIE }}
-        run: |
-          echo ""
-          echo "══════════════════════════════"
-          echo "🚀 STARTING ROBIUl BOT"
-          echo "══════════════════════════════"
-          echo ""
-
-          while true
-          do
-            node index.js
-            echo ""
-            echo "⚠️ Bot stopped — restarting in 5 seconds..."
-            sleep 5
-          done
-
-      # ╔══════════════════════════════╗
-      # 🧹 CLEANUP
-      # ╚══════════════════════════════╝
-      - name: 🧹 Cleanup Runner
-        if: always()
-        run: |
-          echo ""
-          echo "✅ Job Finished Successfully"
-          echo "🧹 Cleaning temporary environment..."
-          echo "━━━━━━━━━━━━━━━━━━━━━━"
+          PORT: 8080
+        run: npm start
