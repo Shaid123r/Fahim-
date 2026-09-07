@@ -22,7 +22,7 @@ jobs:
       # ╔══════════════════════════════╗
       # 🧰 SETUP NODE ENVIRONMENT
       # ╚══════════════════════════════╝
-      - name: ⚙️ Setup Node.js (v20)
+      - name: ⚙️ Setup Node.js (v22)
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
